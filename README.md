@@ -1,13 +1,13 @@
 ndnSIM (KITE version)
 ======
 
-This is a modified version of ndnSIM 2.3 (commit 0970340d), and provides the whole package for KITE simulations for the ACM ICN 2018 paper.
+This is a modified version of ndnSIM 2.3 (based on commit 0970340d), and provides the whole package for KITE simulations for the ACM ICN 2018 paper.
 
 - Using ndnSIM version of [ndn-cxx](https://github.com/named-data-ndnSIM/ndn-cxx) (commit: 4692ba80).
 
 - Using ndnSIM version of [NFD (modified)](https://github.com/KITE-2018/NFD) (branch: kite).
 
-- Runs with ndnSIM version of [ns3](https://github.com/named-data-ndnSIM/ns-3-dev) (commit: 333e6b0).
+- Runs with ndnSIM version of [ns3](https://github.com/named-data-ndnSIM/ns-3-dev) (commit: 333e6b05).
 
 ndnSIM
 ======
