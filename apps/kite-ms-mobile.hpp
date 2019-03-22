@@ -17,8 +17,8 @@
  * ndnSIM, e.g., in COPYING.md file.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef NDN_PRODUCER_H
-#define NDN_PRODUCER_H
+#ifndef KITE_MS_MOBILE_H
+#define KITE_MS_MOBILE_H
 
 #include "ns3/ndnSIM/model/ndn-common.hpp"
 
@@ -27,6 +27,7 @@
 
 #include "ns3/nstime.h"
 #include "ns3/ptr.h"
+#include "ns3/random-variable-stream.h"
 
 namespace ns3 {
 namespace ndn {
@@ -40,16 +41,21 @@ namespace ndn {
  * size and name same as in Interest.cation, which replying every incoming Interest
  * with Data packet with a specified size and name same as in Interest.
  */
-class Producer : public App {
+class KiteMsMobile : public App {
 public:
   static TypeId
   GetTypeId(void);
 
-  Producer();
+  KiteMsMobile();
 
   // inherited from NdnApp
   virtual void
   OnInterest(shared_ptr<const Interest> interest);
+
+  void
+  UpdateMapping();
+
+  std::string m_locator;
 
 protected:
   // inherited from Application base class.
@@ -59,7 +65,7 @@ protected:
   virtual void
   StopApplication(); // Called at time specified by Stop
 
-protected:
+private:
   Name m_prefix;
   Name m_postfix;
   uint32_t m_virtualPayloadSize;
@@ -67,9 +73,15 @@ protected:
 
   uint32_t m_signature;
   Name m_keyLocator;
+
+  Name m_serverPrefix;
+
+  Ptr<UniformRandomVariable> m_rand; ///< @brief nonce generator
+
+  int m_mapInterestSent;
 };
 
 } // namespace ndn
 } // namespace ns3
 
-#endif // NDN_PRODUCER_H
+#endif // KITE_MS_MOBILE_H

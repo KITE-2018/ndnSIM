@@ -29,6 +29,8 @@
 #include "ns3/pointer.h"
 #include "ns3/simulator.h"
 
+#include "ns3/boolean.h"
+
 #include "ndn-net-device-transport.hpp"
 
 #include "../helper/ndn-stack-helper.hpp"
@@ -104,7 +106,13 @@ L3Protocol::GetTypeId(void)
       .AddTraceSource("TimedOutInterests", "TimedOutInterests",
                       MakeTraceSourceAccessor(&L3Protocol::m_timedOutInterests),
                       "ns3::ndn::L3Protocol::TimedOutInterestsCallback")
-    ;
+
+      .AddAttribute("DoPull", "Enable pulling", BooleanValue(false),
+                    MakeBooleanAccessor(&L3Protocol::m_doPull), MakeBooleanChecker())
+      .AddAttribute("ProlongTrace", "Extend trace lifetime on dataflow", BooleanValue(false),
+                    MakeBooleanAccessor(&L3Protocol::m_prolongTrace), MakeBooleanChecker())
+      .AddAttribute("RemoveTrace", "Remove trace on NACK", BooleanValue(false),
+                    MakeBooleanAccessor(&L3Protocol::m_removeTraceOnNack), MakeBooleanChecker());
   return tid;
 }
 
@@ -218,6 +226,10 @@ L3Protocol::initialize()
 
   m_impl->m_forwarder->beforeSatisfyInterest.connect(std::ref(m_satisfiedInterests));
   m_impl->m_forwarder->beforeExpirePendingInterest.connect(std::ref(m_timedOutInterests));
+
+  m_impl->m_forwarder->m_doPull = m_doPull;
+  m_impl->m_forwarder->m_prolongTrace = m_prolongTrace;
+  m_impl->m_forwarder->m_removeTraceOnNack = m_removeTraceOnNack;
 }
 
 class IgnoreSections

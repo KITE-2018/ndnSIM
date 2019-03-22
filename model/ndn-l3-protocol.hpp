@@ -218,6 +218,15 @@ private:
 
   TracedCallback<const nfd::pit::Entry&, const Face&/*in face*/, const Data&> m_satisfiedInterests;
   TracedCallback<const nfd::pit::Entry&> m_timedOutInterests;
+
+  bool m_doPull;        // re-express pending interest on new trace (new nexthop for a prefix)
+  bool m_allowTempPath; // allow forwarding according to trace Interest in-record, if enabled along
+                        // with pulling, allow TI to pull pending Interests
+
+  bool m_setTraceLifetime; // set lifetime of the nexthop according to trace lifetime field in TI
+  bool m_prolongTrace;     // keep trace alive on dataflow
+
+  bool m_removeTraceOnNack;
 };
 
 } // namespace ndn

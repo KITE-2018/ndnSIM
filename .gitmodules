@@ -1,6 +1,7 @@
 [submodule "NFD"]
 	path = NFD
-	url = https://github.com/named-data-ndnSIM/NFD
+	url = https://github.com/KITE-2018/NFD.git
+	branch = kite
 [submodule "ndn-cxx"]
 	path = ndn-cxx
 	url = https://github.com/named-data-ndnSIM/ndn-cxx

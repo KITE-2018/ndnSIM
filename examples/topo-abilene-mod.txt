@@ -1,0 +1,36 @@
+# topo-abilene.txt
+
+# https://en.wikipedia.org/wiki/Abilene_Network
+
+router
+
+# node      comment  yPos    xPos
+Seattle       NA      5       -5
+Sunnyvale     NA      3       -5
+Los-Angeles   NA      1       -2
+Denver        NA      3       -2
+Houston       NA     -1        0
+Kansas-City   NA      3        0
+Atlanta       NA      1        2
+Indianapolis  NA      3        2
+Chicago       NA      4        2
+Washington    NA      3        4
+New-York      NA      4        5
+
+link
+
+# srcNode       dstNode    bandwidth   metric  delay   queue
+Seattle        Sunnyvale     1Gbps      1        10ms    10000
+Seattle        Denver        1Gbps      1        10ms    10000
+Sunnyvale      Denver        1Gbps      1        10ms    10000
+Sunnyvale      Los-Angeles   1Gbps      1        10ms    10000
+Los-Angeles    Houston       1Gbps      1        10ms    10000
+Denver         Kansas-City   1Gbps      1        10ms    10000
+Houston        Kansas-City   1Gbps      1        10ms    10000
+Houston        Atlanta       1Gbps      1        10ms    10000
+Kansas-City    Indianapolis  1Gbps      1        10ms    10000
+Atlanta        Indianapolis  1Gbps      1        10ms    10000
+Atlanta        Washington    1Gbps      1        10ms    10000
+Indianapolis   Chicago       1Gbps      1        10ms    10000
+Chicago        New-York      1Gbps      1        10ms    10000
+Washington     New-York      1Gbps      1        10ms    10000

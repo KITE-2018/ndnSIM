@@ -126,7 +126,7 @@ GlobalRoutingHelper::Install(Ptr<Node> node)
       }
       grChannel = ch->GetObject<GlobalRouter>();
 
-      gr->AddIncidency(face.shared_from_this(), grChannel);
+      // gr->AddIncidency(face.shared_from_this(), grChannel);
     }
   }
 }
@@ -266,7 +266,7 @@ GlobalRoutingHelper::CalculateRoutes()
         }
         else {
           for (const auto& prefix : dist.first->GetLocalPrefixes()) {
-            NS_LOG_DEBUG(" prefix " << prefix << " reachable via face " << *std::get<0>(dist.second)
+            NS_LOG_DEBUG(" prefix " << *prefix << " reachable via face " << *std::get<0>(dist.second)
                          << " with distance " << std::get<1>(dist.second) << " with delay "
                          << std::get<2>(dist.second));
 

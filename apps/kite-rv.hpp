@@ -17,16 +17,16 @@
  * ndnSIM, e.g., in COPYING.md file.  If not, see <http://www.gnu.org/licenses/>.
  **/
 
-#ifndef NDN_PRODUCER_H
-#define NDN_PRODUCER_H
+#ifndef KITE_RV_H
+#define KITE_RV_H
 
 #include "ns3/ndnSIM/model/ndn-common.hpp"
 
-#include "ndn-app.hpp"
-#include "ns3/ndnSIM/model/ndn-common.hpp"
-
+#include "ns3/random-variable-stream.h"
 #include "ns3/nstime.h"
 #include "ns3/ptr.h"
+
+#include "ns3/ndnSIM/apps/ndn-app.hpp"
 
 namespace ns3 {
 namespace ndn {
@@ -35,21 +35,19 @@ namespace ndn {
  * @ingroup ndn-apps
  * @brief A simple Interest-sink applia simple Interest-sink application
  *
- * A simple Interest-sink applia simple Interest-sink application,
- * which replying every incoming Interest with Data packet with a specified
- * size and name same as in Interest.cation, which replying every incoming Interest
- * with Data packet with a specified size and name same as in Interest.
+ * A simple Interest-sink.
+ * It also sends out trace interest periodically to corresponding RV to update it's location in the network.
+ * In upload scenario, this should run on a mobile node.
  */
-class Producer : public App {
+class KiteRv : public App {
 public:
   static TypeId
   GetTypeId(void);
 
-  Producer();
+  KiteRv();
 
-  // inherited from NdnApp
-  virtual void
-  OnInterest(shared_ptr<const Interest> interest);
+  void
+  sendBuffered();
 
 protected:
   // inherited from Application base class.
@@ -59,14 +57,27 @@ protected:
   virtual void
   StopApplication(); // Called at time specified by Stop
 
-protected:
-  Name m_prefix;
-  Name m_postfix;
-  uint32_t m_virtualPayloadSize;
-  Time m_freshness;
+  virtual void
+  OnInterest(shared_ptr<const Interest> interest);
 
-  uint32_t m_signature;
-  Name m_keyLocator;
+private:
+  Name m_rvPrefix; // prefix of RV
+  // Name m_mobilePrefix; // prefix of MP, supports only one for now, RV needs to respond to trace Interests
+
+  Ptr<UniformRandomVariable> m_rand; ///< @brief nonce generator
+  
+  uint64_t m_isn;
+
+public:
+  typedef void (*AttachCallback)(Ptr<App>);
+  TracedCallback<Ptr<App>> m_attachCallback;
+
+  Name m_instancePrefix; // unique prefix of the instance
+
+  bool m_attached; // whether an MP is attached to this RV
+  Name m_attachedPrefix; // the prefix of the current attachment RV
+
+  std::list<std::pair<shared_ptr<Interest>, Time>> m_bufferedInterests;
 };
 
 } // namespace ndn
